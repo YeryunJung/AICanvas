@@ -212,69 +212,73 @@ function LandingPage() {
 
   return (
     <PageWrapper>
-      <LogoText>
-        아이캔버스 <br />
-        AI
-        <br />
-        canvas
-      </LogoText>
-      <CloudImgFromLeft
-        width="1500px"
-        height="1500px"
-        data-bottom="-65%"
-        data-right="20%"
-        isLoading={isLoading}
-      />
-      <CloudImgFromRight
-        width="1000px"
-        height="1000px"
-        data-bottom="-20%"
-        data-right="-10%"
-        style={{ transform: 'scaleX(-1)' }}
-        isLoading={isLoading}
-      />
-      <CloudImgFromRight
-        width="1250px"
-        height="1250px"
-        data-bottom="-70%"
-        data-right="-10%"
-        style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
-        isLoading={isLoading}
-      />
-      {tempId && backSketchUrl && (
-        <>
-          <LandingCanvas
-            canvasRef={canvasRef}
-            canvasUrl={canvasUrl}
-            isLoading={isLoading}
-            backSketchUrl={backSketchUrl}
-          />
-          <BearImg
-            src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.png`}
-            alt="하얀 곰 이미지"
-            width="660px"
-            height="660px"
-            data-bottom="-20%"
-            data-right="7%"
-          />
-          <BtnWrapper>
-            {!isTransformed && (
-              <Button
-                buttonText="변신하기"
-                color="salmon"
-                onClick={handleChange}
-              />
-            )}
-            <LoginBtnWrapper>
-              <Button
-                buttonText="로그인 및 회원가입"
-                color="blue"
-                onClick={handleNavigate}
-              />
-            </LoginBtnWrapper>
-          </BtnWrapper>
-        </>
-      )}
+      {/* {tempId && ( */}
+      <>
+        <LogoText>
+          아이캔버스 <br />
+          AI
+          <br />
+          canvas
+        </LogoText>
+        <CloudImgFromLeft
+          width="1500px"
+          height="1500px"
+          data-bottom="-65%"
+          data-right="20%"
+          isLoading={isLoading}
+        />
+        <CloudImgFromRight
+          width="1000px"
+          height="1000px"
+          data-bottom="-20%"
+          data-right="-10%"
+          style={{ transform: 'scaleX(-1)' }}
+          isLoading={isLoading}
+        />
+        <CloudImgFromRight
+          width="1250px"
+          height="1250px"
+          data-bottom="-70%"
+          data-right="-10%"
+          style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
+          isLoading={isLoading}
+        />
+        {tempId && backSketchUrl && (
+          <>
+            <LandingCanvas
+              canvasRef={canvasRef}
+              canvasUrl={canvasUrl}
+              isLoading={isLoading}
+              backSketchUrl={backSketchUrl}
+            />
+            <BearImg
+              src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.png`}
+              alt="하얀 곰 이미지"
+              width="660px"
+              height="660px"
+              data-bottom="-20%"
+              data-right="7%"
+            />
+            <BtnWrapper>
+              {!isTransformed && (
+                <Button
+                  buttonText="변신하기"
+                  color="salmon"
+                  onClick={handleChange}
+                />
+              )}
+              <LoginBtnWrapper>
+                <Button
+                  buttonText="로그인 및 회원가입"
+                  color="blue"
+                  onClick={handleNavigate}
+                />
+              </LoginBtnWrapper>
+            </BtnWrapper>
+          </>
+        )}
+      </>
+      {/* )} */}
     </PageWrapper>
   );
 }
