@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import theme from '../style/theme';
@@ -154,12 +154,12 @@ function LandingPage() {
     getTempID();
   }, []);
 
-  // useEffect(() => {
-  //   if (typeof tempId === 'string') {
-  //     landingSSE(tempId, setIsLoading, setCanvasUrl);
-  //     console.log('연결?');
-  //   }
-  // }, [tempId]);
+  useEffect(() => {
+    if (typeof tempId === 'string') {
+      landingSSE(tempId, setIsLoading, setCanvasUrl);
+      console.log('연결?');
+    }
+  }, [tempId]);
 
   const handleChange = async () => {
     if (isTransformed) {
@@ -212,67 +212,71 @@ function LandingPage() {
 
   return (
     <PageWrapper>
-      <LogoText>
-        아이캔버스 <br />
-        AI
-        <br />
-        canvas
-      </LogoText>
-      <CloudImgFromLeft
-        width="1500px"
-        height="1500px"
-        data-bottom="-65%"
-        data-right="20%"
-        isLoading={isLoading}
-      />
-      <CloudImgFromRight
-        width="1000px"
-        height="1000px"
-        data-bottom="-20%"
-        data-right="-10%"
-        style={{ transform: 'scaleX(-1)' }}
-        isLoading={isLoading}
-      />
-      <CloudImgFromRight
-        width="1250px"
-        height="1250px"
-        data-bottom="-70%"
-        data-right="-10%"
-        style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
-        isLoading={isLoading}
-      />
-      {tempId && backSketchUrl && (
+      {tempId && (
         <>
-          <LandingCanvas
-            canvasRef={canvasRef}
-            canvasUrl={canvasUrl}
+          <LogoText>
+            아이캔버스 <br />
+            AI
+            <br />
+            canvas
+          </LogoText>
+          <CloudImgFromLeft
+            width="1500px"
+            height="1500px"
+            data-bottom="-65%"
+            data-right="20%"
             isLoading={isLoading}
-            backSketchUrl={backSketchUrl}
           />
-          <BearImg
-            src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.png`}
-            alt="하얀 곰 이미지"
-            width="660px"
-            height="660px"
+          <CloudImgFromRight
+            width="1000px"
+            height="1000px"
             data-bottom="-20%"
-            data-right="7%"
+            data-right="-10%"
+            style={{ transform: 'scaleX(-1)' }}
+            isLoading={isLoading}
           />
-          <BtnWrapper>
-            {!isTransformed && (
-              <Button
-                buttonText="변신하기"
-                color="salmon"
-                onClick={handleChange}
+          <CloudImgFromRight
+            width="1250px"
+            height="1250px"
+            data-bottom="-70%"
+            data-right="-10%"
+            style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
+            isLoading={isLoading}
+          />
+          {backSketchUrl && (
+            <>
+              <LandingCanvas
+                canvasRef={canvasRef}
+                canvasUrl={canvasUrl}
+                isLoading={isLoading}
+                backSketchUrl={backSketchUrl}
               />
-            )}
-            <LoginBtnWrapper>
-              <Button
-                buttonText="로그인 및 회원가입"
-                color="blue"
-                onClick={handleNavigate}
+              <BearImg
+                src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.png`}
+                alt="하얀 곰 이미지"
+                width="660px"
+                height="660px"
+                data-bottom="-20%"
+                data-right="7%"
               />
-            </LoginBtnWrapper>
-          </BtnWrapper>
+              <BtnWrapper>
+                {!isTransformed && (
+                  <Button
+                    buttonText="변신하기"
+                    color="salmon"
+                    onClick={handleChange}
+                  />
+                )}
+                <LoginBtnWrapper>
+                  <Button
+                    buttonText="로그인 및 회원가입"
+                    color="blue"
+                    onClick={handleNavigate}
+                  />
+                </LoginBtnWrapper>
+              </BtnWrapper>
+            </>
+          )}
         </>
       )}
     </PageWrapper>
