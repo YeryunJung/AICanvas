@@ -252,7 +252,7 @@ function LandingPage() {
                 backSketchUrl={backSketchUrl}
               />
               <BearImg
-                src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.png`}
+                src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.webp`}
                 alt="하얀 곰 이미지"
                 width="660px"
                 height="660px"
