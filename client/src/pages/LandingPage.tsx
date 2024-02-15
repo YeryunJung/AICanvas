@@ -11,7 +11,6 @@ import { ReactComponent as CloudIcon } from '../assets/image/etc/cloud.svg';
 interface SvgImageProps extends React.HTMLProps<HTMLImageElement> {
   'data-bottom'?: string;
   'data-right'?: string;
-  isLoading?: boolean;
   $isLoading?: boolean;
 }
 
@@ -243,7 +242,7 @@ function LandingPage() {
             data-bottom="-70%"
             data-right="-10%"
             style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
-            isLoading={isLoading}
+            $isLoading={isLoading}
           />
           {backSketchUrl && (
             <>
