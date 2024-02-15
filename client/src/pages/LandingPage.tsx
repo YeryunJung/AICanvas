@@ -12,6 +12,7 @@ interface SvgImageProps extends React.HTMLProps<HTMLImageElement> {
   'data-bottom'?: string;
   'data-right'?: string;
   isLoading?: boolean;
+  $isLoading?: boolean;
 }
 
 const cloudAnimationLeftToRight = keyframes`
@@ -86,7 +87,7 @@ const CloudImgFromLeft = styled(CloudIcon)<SvgImageProps>`
   right: ${(props) => props['data-right'] || '0'};
   z-index: 300;
   ${(props) =>
-    props.isLoading
+    props.$isLoading
       ? css`
           animation: ${cloudAnimationLeftToRight} 3s forwards;
         `
@@ -103,7 +104,7 @@ const CloudImgFromRight = styled(CloudIcon)<SvgImageProps>`
   right: ${(props) => props['data-right'] || '0'};
   z-index: 300;
   ${(props) =>
-    props.isLoading
+    props.$isLoading
       ? css`
           animation: ${cloudAnimationRightToLeft} 4s forwards;
         `
@@ -225,15 +226,16 @@ function LandingPage() {
             height="1500px"
             data-bottom="-65%"
             data-right="20%"
-            isLoading={isLoading}
+            $isLoading={isLoading}
           />
+
           <CloudImgFromRight
             width="1000px"
             height="1000px"
             data-bottom="-20%"
             data-right="-10%"
             style={{ transform: 'scaleX(-1)' }}
-            isLoading={isLoading}
+            $isLoading={isLoading}
           />
           <CloudImgFromRight
             width="1250px"
