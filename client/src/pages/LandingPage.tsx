@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import theme from '../style/theme';
-import { postTempId, postDrawing } from '../api/landing';
+import { getBacksketch, postTempId, postDrawing } from '../api/landing';
 import LandingCanvas from '../components/organisms/LandingCanvas';
 import Button from '../components/atoms/Button';
 import { landingSSE, disconnectLandingSSE } from '../sse/landingSSE';
@@ -137,22 +137,34 @@ function LandingPage() {
   const subjectId = 6;
 
   useEffect(() => {
-    const getTempID = async () => {
+    const fetchBacksketch = async () => {
       try {
-        const postData = {
-          subjectId,
-        };
+        const backSketchResponse = await getBacksketch(subjectId);
+        console.log(backSketchResponse);
+        setBackSketchUrl(backSketchResponse.content.sketchImageUrl);
 
-        const response = await postTempId(postData);
-        setTempId(response.content.tempId);
-        setBackSketchUrl(response.content.subjectSketch);
-        console.log('임시 아이디 발급 완료', response);
+        console.log('백스케치 발급 완료');
       } catch (error) {
-        console.error(error);
+        console.error('백스케치 불러오는 중 에러 발생:', error);
       }
     };
-    getTempID();
+    fetchBacksketch();
   }, []);
+
+  useEffect(() => {
+    const fetchTempId = async () => {
+      try {
+        const tempIdResponse = await postTempId();
+        console.log(tempIdResponse);
+        setTempId(tempIdResponse.content.tempId);
+
+        console.log('임시 아이디 발급 완료');
+      } catch (error) {
+        console.error('임시 아이디 불러오는 중 에러 발생:', error);
+      }
+    };
+    fetchTempId();
+  }, [backSketchUrl]);
 
   useEffect(() => {
     if (typeof tempId === 'string') {
@@ -212,72 +224,68 @@ function LandingPage() {
 
   return (
     <PageWrapper>
-      {tempId && (
-        <>
-          <LogoText>
-            아이캔버스 <br />
-            AI
-            <br />
-            canvas
-          </LogoText>
-          <CloudImgFromLeft
-            width="1500px"
-            height="1500px"
-            data-bottom="-65%"
-            data-right="20%"
-            $isLoading={isLoading}
-          />
+      <LogoText>
+        아이캔버스 <br />
+        AI
+        <br />
+        canvas
+      </LogoText>
+      <CloudImgFromLeft
+        width="1500px"
+        height="1500px"
+        data-bottom="-65%"
+        data-right="20%"
+        $isLoading={isLoading}
+      />
 
-          <CloudImgFromRight
-            width="1000px"
-            height="1000px"
+      <CloudImgFromRight
+        width="1000px"
+        height="1000px"
+        data-bottom="-20%"
+        data-right="-10%"
+        style={{ transform: 'scaleX(-1)' }}
+        $isLoading={isLoading}
+      />
+      <CloudImgFromRight
+        width="1250px"
+        height="1250px"
+        data-bottom="-70%"
+        data-right="-10%"
+        style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
+        $isLoading={isLoading}
+      />
+      {tempId && backSketchUrl && (
+        <>
+          <LandingCanvas
+            canvasRef={canvasRef}
+            canvasUrl={canvasUrl}
+            isLoading={isLoading}
+            backSketchUrl={backSketchUrl}
+          />
+          <BearImg
+            src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.webp`}
+            alt="하얀 곰 이미지"
+            width="660px"
+            height="660px"
             data-bottom="-20%"
-            data-right="-10%"
-            style={{ transform: 'scaleX(-1)' }}
-            $isLoading={isLoading}
+            data-right="7%"
           />
-          <CloudImgFromRight
-            width="1250px"
-            height="1250px"
-            data-bottom="-70%"
-            data-right="-10%"
-            style={{ transform: 'scaleX(-1)', opacity: '0.9' }}
-            $isLoading={isLoading}
-          />
-          {backSketchUrl && (
-            <>
-              <LandingCanvas
-                canvasRef={canvasRef}
-                canvasUrl={canvasUrl}
-                isLoading={isLoading}
-                backSketchUrl={backSketchUrl}
+          <BtnWrapper>
+            {!isTransformed && (
+              <Button
+                buttonText="변신하기"
+                color="salmon"
+                onClick={handleChange}
               />
-              <BearImg
-                src={`${process.env.REACT_APP_IMG_URL}/service-image/mainBear.webp`}
-                alt="하얀 곰 이미지"
-                width="660px"
-                height="660px"
-                data-bottom="-20%"
-                data-right="7%"
+            )}
+            <LoginBtnWrapper>
+              <Button
+                buttonText="로그인 및 회원가입"
+                color="blue"
+                onClick={handleNavigate}
               />
-              <BtnWrapper>
-                {!isTransformed && (
-                  <Button
-                    buttonText="변신하기"
-                    color="salmon"
-                    onClick={handleChange}
-                  />
-                )}
-                <LoginBtnWrapper>
-                  <Button
-                    buttonText="로그인 및 회원가입"
-                    color="blue"
-                    onClick={handleNavigate}
-                  />
-                </LoginBtnWrapper>
-              </BtnWrapper>
-            </>
-          )}
+            </LoginBtnWrapper>
+          </BtnWrapper>
         </>
       )}
     </PageWrapper>

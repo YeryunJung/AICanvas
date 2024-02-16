@@ -1,6 +1,18 @@
 import { AxiosResponse } from 'axios';
 import { api } from './api';
 
+interface BacksketchResponse {
+  status: {
+    httpStatus: string;
+    code: number;
+    message: string;
+  };
+  content: {
+    sketchId: number;
+    sketchImageUrl: string;
+  };
+}
+
 interface TempIdResponse {
   status: {
     httpStatus: string;
@@ -8,8 +20,8 @@ interface TempIdResponse {
     message: string;
   };
   content: {
-    subjectId: number;
-    subjectSketch: string;
+    subjectId: null;
+    subjectSketch: null;
     tempId: string;
   };
 }
@@ -23,7 +35,9 @@ interface DrawingResponse {
   content: null;
 }
 
-const getBacksketch = async (subjectId: number): Promise<TempIdResponse> => {
+const getBacksketch = async (
+  subjectId: number,
+): Promise<BacksketchResponse> => {
   try {
     const response = await api.get(`/api/subjects/${subjectId}/sketches`);
     return response.data;
