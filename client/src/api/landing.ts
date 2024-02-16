@@ -23,13 +23,19 @@ interface DrawingResponse {
   content: null;
 }
 
-interface PostData {
-  subjectId: number;
-}
-
-const postTempId = async (postData: PostData): Promise<TempIdResponse> => {
+const getBacksketch = async (subjectId: number): Promise<TempIdResponse> => {
   try {
-    const response = await api.post(`/api/tempId`, postData);
+    const response = await api.get(`/api/subjects/${subjectId}/sketches`);
+    return response.data;
+  } catch (error) {
+    console.log('랜딩페이지 백스케치 조회 에러', error);
+    throw error;
+  }
+};
+
+const postTempId = async (): Promise<TempIdResponse> => {
+  try {
+    const response = await api.post(`/api/tempId`);
     return response.data;
   } catch (error) {
     console.log('임시아이디 발급 에러', error);
@@ -59,4 +65,4 @@ const postDrawing = async (
   }
 };
 
-export { postTempId, postDrawing };
+export { getBacksketch, postTempId, postDrawing };
