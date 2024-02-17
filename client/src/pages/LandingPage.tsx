@@ -134,16 +134,13 @@ function LandingPage() {
   const [canvasUrl, setCanvasUrl] = useState<string | undefined>();
   const [isTransformed, setIsTransformed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const subjectId = 6;
+  const subjectId = 6; // 판다 주제 아이디
 
   useEffect(() => {
     const fetchBacksketch = async () => {
       try {
         const backSketchResponse = await getBacksketch(subjectId);
-        console.log(backSketchResponse);
         setBackSketchUrl(backSketchResponse.content.sketchImageUrl);
-
-        console.log('백스케치 발급 완료');
       } catch (error) {
         console.error('백스케치 불러오는 중 에러 발생:', error);
       }
@@ -155,10 +152,7 @@ function LandingPage() {
     const fetchTempId = async () => {
       try {
         const tempIdResponse = await postTempId();
-        console.log(tempIdResponse);
         setTempId(tempIdResponse.content.tempId);
-
-        console.log('임시 아이디 발급 완료');
       } catch (error) {
         console.error('임시 아이디 불러오는 중 에러 발생:', error);
       }
