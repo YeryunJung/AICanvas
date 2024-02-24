@@ -116,10 +116,10 @@ function TopicMenuBox({ topicData }: TopicDrawingMenuProps) {
                   index === 0
                     ? 'pink'
                     : index === 1
-                    ? 'green'
-                    : index === 2
-                    ? 'mint'
-                    : 'yellow'
+                      ? 'green'
+                      : index === 2
+                        ? 'mint'
+                        : 'yellow'
                 }
                 buttonText={subject.subject.subjectName}
                 svgSrc={subject.subject.subjectImage}
@@ -136,10 +136,10 @@ function TopicMenuBox({ topicData }: TopicDrawingMenuProps) {
                 index === 0
                   ? 'pink'
                   : index === 1
-                  ? 'green'
-                  : index === 2
-                  ? 'mint'
-                  : 'yellow'
+                    ? 'green'
+                    : index === 2
+                      ? 'mint'
+                      : 'yellow'
               }
               buttonText={data.subjectName}
               svgSrc={data.subjectImage}
